@@ -1,7 +1,15 @@
-import ele from './ele.js';
-import fade from './fade.js';
+import ele from './tools/ele.js';
+import fade from './tools/fade.js';
+import './ajax.js';
+import Opacity from './tools/opacity.js';
+import ScrollTo from './tools/scrollTo.js';
+
+
 import '../style.less';
 
+__webpack_public_path__ = window.mdxPublicPath;
+
+const HTMLScrollTo = new ScrollTo(document.documentElement);
 //Toggle TitleBar's Classes and "Scroll To the Top" Bottom's Classes
 var whetherChange = 0;
 var metaColor = document.querySelector("meta[name='theme-color']");
@@ -76,6 +84,26 @@ function scrollDiff() {
                 opacityHeight = 1;
             }
             document.getElementsByClassName("theFirstPage")[0].style.setProperty('opacity', opacityHeight, 'important');
+
+            const slideDOMStyle1 = document.querySelectorAll('.slide-style-1 .mdx-slide-content');
+            if (slideDOMStyle1.length > 0) {
+                for (const e of [...slideDOMStyle1]) {
+                    e.style.setProperty('background-color', `rgba(var(--mdx-theme-color-with-white-head), ${(1 - opacityHeight) * .4 + .6})`, 'important');
+                }
+                ele('.swiper-pagination', (e) => {
+                    e.style.setProperty('opacity', opacityHeight, 'important');
+                })
+            } else {
+                const slideDOMStyle2 = document.querySelectorAll('.slide-style-2 .mdx-slide-content');
+                if (slideDOMStyle2.length > 0) {
+                    for (const e of [...slideDOMStyle2]) {
+                        e.style.setProperty('background-image', `linear-gradient(65deg, rgba(var(--mdx-theme-color-with-white-head), 1) 30%, rgba(var(--mdx-theme-color-with-white-head), ${(1 - opacityHeight * .9 + .1)}) 80%)`, 'important');
+                    }
+                    ele('.flickity-page-dots', (e) => {
+                        e.style.setProperty('opacity', opacityHeight, 'important');
+                    })
+                }
+            }
         }
     } else if (!mdxStyle) {
         var howFar = document.documentElement.scrollTop || document.body.scrollTop;
@@ -97,7 +125,7 @@ function scrollDiff() {
 
 //Scroll To the Top
 document.getElementsByClassName("scrollToTop")[0].addEventListener("click", function () {
-    Velocity(ele("html"), { scrollTop: "0px" }, 500);
+    HTMLScrollTo.to(0, 500);
 }, false);
 
 //Night Styles
@@ -136,6 +164,56 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     displayHotPostsOverlay();
+
+    const sliderDOM = document.getElementsByClassName('mdx-swiper');
+    if (sliderDOM.length > 0) {
+        new Flickity('.swiper-wrapper', {
+            accessibility: true,
+            autoPlay: 5000,
+            cellAlign: 'center',
+            cellSelector: '.swiper-item',
+            draggable: '>1',
+            dragThreshold: 3,
+            lazyLoad: false,
+            percentPosition: true,
+            prevNextButtons: false,
+            pageDots: true,
+            resize: true,
+            setGallerySize: false,
+            watchCSS: false,
+            wrapAround: true
+          });
+    }
+
+    if (document.body.classList.contains('mdx-wide-post-list')) {
+        const postList = document.getElementById('postlist');
+        if (postList.getElementsByClassName('post-item').length > 0) {
+            let gutter = 30;
+            if (postList.getElementsByClassName('indexgaid').length > 0) {
+                gutter = 20;
+            }
+            window.mdxMasonry = new Masonry(postList, {
+                itemSelector: '.post-item',
+                columnWidth: '.post-item',
+                gutter,
+                stagger: 10,
+                percentPosition: true
+            });
+            document.getElementById('postlist').addEventListener('lazyloaded', (e) => {
+                if (e.target.matches('#postlist > .post-item img')) {
+                    window.mdxMasonry.layout()
+                }
+            })
+            ele('#postlist img:not([data-src])', (el) => {
+                el.addEventListener('load', () => {
+                    window.mdxMasonry.layout();
+                })
+                el.addEventListener('error', () => {
+                    window.mdxMasonry.layout();
+                })
+            })
+        }
+    }
 })
 
 function handleSearchChange(hsc) {
@@ -237,7 +315,7 @@ document.getElementsByClassName("seai")[0].addEventListener("click", function ()
     searchBarDOM.style.display = "block";
     fade(ele('.OutOfsearchBox', null, 'array'), 'in', 300);
     fade(ele('.fullScreen', null, 'array'), 'in', 300);
-    ele("#SearchBar > *", (e) => Velocity(e, { opacity: '1' }, 200));
+    ele("#SearchBar > *", (e) => new Opacity(e, 1, 200));
     setTimeout(() => {
         document.getElementsByClassName("outOfSearch")[0].style.width = '75%';
         searchBarDOM.classList.add("mdui-color-theme");
@@ -338,7 +416,7 @@ function closeSearch() {
             document.getElementsByClassName("mdx-tworow-search")[0].style.visibility = 'visible';
         }, 500);
     } else {
-        ele("#SearchBar > *", (e) => Velocity(e, { opacity: '0' }, 200));
+        ele("#SearchBar > *", (e) => new Opacity(e, 0, 200));
         fade(ele('.fullScreen', null, 'array'), 'out', 300);
         fade(ele('.OutOfsearchBox', null, 'array'), 'out', 300);
         document.getElementsByClassName("outOfSearch")[0].style.width = '30%';
@@ -362,7 +440,7 @@ function hideBar() {
 //tap tp top
 document.getElementsByClassName("mdui-typo-headline")[0].addEventListener("click", function () {
     if (mdx_tapToTop == 1) {
-        Velocity(ele("html"), { scrollTop: "0px" }, 500);
+        HTMLScrollTo.to(0, 500);
     }
 })
 

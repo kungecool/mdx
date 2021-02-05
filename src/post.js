@@ -1,13 +1,18 @@
-import ele from './ele.js';
-import fade from './fade.js';
-import betterFetch from './betterFetch.js';
+import ele from './tools/ele.js';
+import fade from './tools/fade.js';
+import betterFetch from './tools/betterFetch.js';
+import Opacity from './tools/opacity.js';
+import ScrollTo from './tools/scrollTo.js';
 
+__webpack_public_path__ = window.mdxPublicPath;
+
+const HTMLScrollTo = new ScrollTo(document.documentElement);
 //Toggle TitleBar's Classes and "Scroll To the Top" Bottom's Classes
 var whetherChange = 0;
 var whetherChangeToTop = 0;
 var blogName = ele('div.mdui-toolbar > a.mdui-typo-headline').innerHTML;
 var postTitle = ele('div.PostTitle h1').innerText;
-var blogUrl = ele('div.mdui-toolbar > a.mdui-typo-headline').getAttribute("href");
+var blogUrl = ele('div.mdui-toolbar > a.mdui-typo-headline').getAttribute('href');
 var metaColor = document.querySelector("meta[name='theme-color']");
 var colorEnabled = false;
 var nowColor = '';
@@ -16,11 +21,11 @@ if (metaColor) {
     nowColor = document.querySelector("meta[name='mdx-main-color']").getAttribute('content');
     colorEnabled = true;
 }
-var url_hash = window.location.href;
+var urlHash = window.location.href;
 var ticking = false;
 var winheight = window.innerHeight;
 var winwidth = document.body.clientWidth;
-var ifOffline = typeof offlineMode === "undefined" ? false : offlineMode;
+var ifOffline = typeof offlineMode === 'undefined' ? false : offlineMode;
 if (document.getElementsByClassName('PostMain2').length > 0) {
     var postStyle2 = true;
 } else {
@@ -104,7 +109,7 @@ function scrollDiff() {
 window.addEventListener("load", () => {
     init_wp_block();
     fade(ele('body > .mdui-progress', null, 'array'), 'out', 200);
-    document.querySelectorAll('.wp-block-mdx-fold').forEach(item => {
+    document.querySelectorAll('.wp-block-mdx-fold').forEach((item) => {
         item.setAttribute('mdui-panel', '');
     });
     mdui.$(".wp-block-mdx-fold").mutation();
@@ -117,8 +122,15 @@ window.addEventListener("load", () => {
                 if (DOMlist[parseInt(newpro[1])]) {
                     var scro = DOMlist[parseInt(newpro[1])].offsetHeight * parseFloat(newpro[2]) + DOMlist[parseInt(newpro[1])].offsetTop;
                     if (scro > 200) {
-                        Velocity(ele("html"), { scrollTop: scro + "px" }, 700);
-                        snbar();
+                        HTMLScrollTo.to(scro, 700);
+                        mdui.snackbar({
+                            message: snbar_message,
+                            buttonText: snbar_buttonText,
+                            timeout: 10000,
+                            onButtonClick: () => {
+                                HTMLScrollTo.to(0, 700);
+                            },
+                        });
                     }
                 } else {
                     backupPro(newpro[3]);
@@ -140,8 +152,15 @@ function backupPro(query) {
     }
     var scro = postHight3 * oldpro;
     if (scro > 200) {
-        Velocity(ele("html"), { scrollTop: scro + "px" }, 700);
-        snbar();
+        HTMLScrollTo.to(scro, 700);
+        mdui.snackbar({
+            message: snbar_message,
+            buttonText: snbar_buttonText,
+            timeout: 10000,
+            onButtonClick: () => {
+                HTMLScrollTo.to(0, 700);
+            },
+        });
     }
 }
 
@@ -169,10 +188,17 @@ function init_wp_block() {
             const table = e.getElementsByTagName('table');
             if (table.length > 0) {
                 table[0].classList.add("mdui-table", "mdx-dny-table", "mdui-table-hoverable");
-                let wrapper = document.createElement('div');
+                const wrapper = document.createElement('div');
                 wrapper.classList.add('mdui-table-fluid');
                 e.parentNode.insertBefore(wrapper, e);
                 wrapper.appendChild(table[0]);
+                const figcaption = e.getElementsByTagName('figcaption');
+                if (figcaption.length > 0) {
+                    const figure = document.createElement('figure');
+                    wrapper.parentNode.insertBefore(figure, wrapper);
+                    figure.appendChild(wrapper);
+                    figure.appendChild(figcaption[0]);
+                }
                 e.parentNode.removeChild(e);
             } else {
                 e.classList.remove("wp-block-table", "has-subtle-pale-blue-background-color", "has-background", "is-style-stripes", "has-fixed-layout", "is-style-regular", "has-subtle-pale-green-background-color", "has-subtle-pale-pink-background-color", "has-subtle-light-gray-background-color");
@@ -271,7 +297,7 @@ function mdxAjaxPost(i) {
 
 //Scroll To the Top
 document.getElementsByClassName("scrollToTop")[0].addEventListener("click", function () {
-    Velocity(ele("html"), { scrollTop: "0px" }, 500);
+    HTMLScrollTo.to(0, 500);
 }, false);
 
 //Night Styles
@@ -332,7 +358,8 @@ if (lazyloadImg2.length) {
 
 window.addEventListener('DOMContentLoaded', () => {
     if (mdx_comment_ajax && ele('#comments-navi>a.prev').getAttribute('href')) {
-        ele('#comments-navi').innerHTML = `<button class="mdx-more-comments mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-ripple" data-comment-url="${ele('#comments-navi>a.prev').getAttribute('href')}"><i class="mdui-icon material-icons">keyboard_arrow_down</i></button>`;
+        ele('#comments-navi').innerHTML = `<button class="mdx-more-comments mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-ripple" mdui-tooltip="{content: '${morecomment}'}" data-comment-url="${ele('#comments-navi>a.prev').getAttribute('href')}"><i class="mdui-icon material-icons">keyboard_arrow_down</i></button>`;
+        mdui.$('ul.mdui-list.ajax-comments').mutation();
     }
 
     if (document.querySelectorAll('#comments > ul').length == 0) {
@@ -416,7 +443,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 })
                 mdui.updateSpinners();
                 ele('.mdx-img-viewer', (elem) => {
-                    elem.innerHTML += `<img src="${e.target.getAttribute("src")}" style="top:${toTopDes}px;left:${toLeftDes}px;width:${e.target.getBoundingClientRect().width}px;height:${e.target.getBoundingClientRect().height}px;" data-raww="${e.target.getBoundingClientRect().width}" data-rawh="${e.target.getBoundingClientRect().height}" data-post="${toTopDes}" data-posl="${toLeftDes}">`;
+                    elem.innerHTML += `<img src="${e.target.getAttribute("src")}" style="top:${toTopDes}px;left:${toLeftDes}px;width:${e.target.getBoundingClientRect().width}px;height:${e.target.getBoundingClientRect().height}px;" data-raww="${e.target.getBoundingClientRect().width}" data-rawh="${e.target.getBoundingClientRect().height}" data-post="${toTopDes}" data-posl="${toLeftDes}">${(e.target.getAttribute('alt') !== '' && e.target.getAttribute('alt') !== e.target.dataset.src) ? `<div class="image-view-alt">${mdx_img_alt && e.target.getAttribute('alt').replace(/[<>&"]/g, (c) => {return {'<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;'}[c]})}</div>` : ''}`;
                 })
                 ele('#img-box').style.display = "flex";
                 ele('#img-box').style.opacity = 1;
@@ -432,7 +459,17 @@ window.addEventListener('DOMContentLoaded', () => {
                                     e.style.height = winwidth / imgWdh + 'px';
                                     e.style.top = (winheight - (winwidth / imgWdh)) / 2 + 'px';
                                     e.style.left = '0';
-                                })
+                                });
+                                if (mdx_img_alt) {
+                                    ele('.mdx-img-viewer .image-view-alt', (e) => {
+                                        e.style.paddingLeft = e.style.paddingRight = '15px';
+                                    });
+                                    setTimeout(() => {
+                                        ele('.mdx-img-viewer .image-view-alt', (e) => {
+                                            e.style.opacity = '1';
+                                        })
+                                    }, 200);
+                                }
                             }, 0);
                         } else {
                             ele('.mdx-img-viewer img').style.transition = 'all .2s';
@@ -442,7 +479,17 @@ window.addEventListener('DOMContentLoaded', () => {
                                     e.style.height = img.naturalHeight + 'px';
                                     e.style.top = (winheight - (img.naturalHeight)) / 2 + 'px';
                                     e.style.left = (winwidth - (img.naturalWidth)) / 2 + 'px';
-                                })
+                                });
+                                if (mdx_img_alt) {
+                                    ele('.mdx-img-viewer .image-view-alt', (e) => {
+                                        e.style.paddingLeft = e.style.paddingRight = (winwidth - (img.naturalWidth)) / 2 + 15 + 'px';
+                                    });
+                                    setTimeout(() => {
+                                        ele('.mdx-img-viewer .image-view-alt', (e) => {
+                                            e.style.opacity = '1';
+                                        })
+                                    }, 200);
+                                }
                             }, 0);
                         }
                     } else {
@@ -454,7 +501,17 @@ window.addEventListener('DOMContentLoaded', () => {
                                     e.style.height = winheight + 'px';
                                     e.style.top = '0';
                                     e.style.left = (winwidth - (winheight * imgWdh)) / 2 + 'px';
-                                })
+                                });
+                                if (mdx_img_alt) {
+                                    ele('.mdx-img-viewer .image-view-alt', (e) => {
+                                        e.style.paddingLeft = e.style.paddingRight = (winwidth - (winheight * imgWdh)) / 2 + 15 + 'px';
+                                    });
+                                    setTimeout(() => {
+                                        ele('.mdx-img-viewer .image-view-alt', (e) => {
+                                            e.style.opacity = '1';
+                                        })
+                                    }, 200);
+                                }
                             }, 0);
                         } else {
                             ele('.mdx-img-viewer img').style.transition = 'all .2s';
@@ -464,7 +521,17 @@ window.addEventListener('DOMContentLoaded', () => {
                                     e.style.height = img.naturalHeight + 'px';
                                     e.style.top = (winheight - (img.naturalHeight)) / 2 + 'px';
                                     e.style.left = (winwidth - (img.naturalWidth)) / 2 + 'px';
-                                })
+                                });
+                                if (mdx_img_alt) {
+                                    ele('.mdx-img-viewer .image-view-alt', (e) => {
+                                        e.style.paddingLeft = e.style.paddingRight = (winwidth - (img.naturalWidth)) / 2 + 15 + 'px';
+                                    });
+                                    setTimeout(() => {
+                                        ele('.mdx-img-viewer .image-view-alt', (e) => {
+                                            e.style.opacity = '1';
+                                        })
+                                    }, 200);
+                                }
                             }, 0);
                         }
                     }
@@ -500,6 +567,11 @@ window.addEventListener('DOMContentLoaded', () => {
         mdui.$('body').on('click', '.mdx-img-viewer', function () {
             ele('#img-box').style.opacity = '0';
             ele('#img-box').style.pointerEvents = 'none';
+            if (mdx_img_alt) {
+                ele('.mdx-img-viewer .image-view-alt', (e) => {
+                    e.style.opacity = '0';
+                })
+            }
             ele('.mdx-img-viewer img', (e) => {
                 e.style.width = ele('.mdx-img-viewer img').getAttribute("data-raww") + "px";
                 e.style.height = ele('.mdx-img-viewer img').getAttribute("data-rawh") + "px";
@@ -516,6 +588,13 @@ window.addEventListener('DOMContentLoaded', () => {
             }
             window.setTimeout(afterCloseImgBox, 200);
         })
+    } else {
+        ele('article a > img', (e) => {
+            e.parentNode.classList.add("mdx-img-in-post-with-link");
+        });
+        ele('article a > figure > img.lazyload, article a > figure > img.lazyloaded, article a > figure > img.lazyloading', (e) => {
+            e.parentNode.parentNode.classList.add("mdx-img-in-post-with-link");
+        });
     }
     ele('article a > img:not(.lazyload):not(.lazyloaded):not(.lazyloading)', (e) => {
         e.parentNode.classList.add('mdx-nonlazy-link');
@@ -709,7 +788,7 @@ document.getElementsByClassName("seai")[0].addEventListener("click", function ()
     searchBarDOM.style.display = "block";
     fade(ele('.OutOfsearchBox', null, 'array'), 'in', 300);
     fade(ele('.fullScreen', null, 'array'), 'in', 300);
-    ele("#SearchBar > *", (e) => Velocity(e, { opacity: '1' }, 200));
+    ele("#SearchBar > *", (e) => new Opacity(e, 1, 200));
     setTimeout(() => {
         document.getElementsByClassName("outOfSearch")[0].style.width = '75%';
         searchBarDOM.classList.add("mdui-color-theme");
@@ -728,7 +807,7 @@ for (let ele of document.getElementsByClassName("sea-close")) {
 }
 function closeSearch() {
     document.getElementsByClassName("seainput")[0].blur();
-    ele("#SearchBar > *", (e) => Velocity(e, { opacity: '0' }, 200));
+    ele("#SearchBar > *", (e) => new Opacity(e, 0, 200));
     fade(ele('.fullScreen', null, 'array'), 'out', 300);
     fade(ele('.OutOfsearchBox', null, 'array'), 'out', 300);
     document.getElementsByClassName("outOfSearch")[0].style.width = '30%';
@@ -764,7 +843,7 @@ window.addEventListener('DOMContentLoaded', () => {
 function convertCanvasToImage(canvas) {
     var image = new Image();
     var canvasData = canvas.toDataURL("image/png");
-    sessionStorage.setItem('si_' + url_hash, canvasData);
+    sessionStorage.setItem('si_' + urlHash, canvasData);
     image.src = canvasData;
     document.getElementById('mdx-share-img-loaded-container').appendChild(image);
     ele('#mdx-share-img').style.display = 'none';
@@ -797,13 +876,13 @@ function mdx_show_img(e) {
     mdui.updateSpinners();
     ele('#mdx-share-img').style.display = 'block';
 
-    if (!sessionStorage.getItem('si_' + url_hash)) {
-        html2canvas(document.getElementById("mdx-share-img"), { useCORS: true }).then(function (canvas) {
-            convertCanvasToImage(canvas);
-        });
+    if (!sessionStorage.getItem('si_' + urlHash)) {
+        import(/* webpackPrefetch: true, webpackChunkName: 'html2canvas' */ 'html2canvas').then((module) => {
+            module.default(document.getElementById('mdx-share-img'), { useCORS: true }).then(convertCanvasToImage);
+        })
     } else {
         var image = new Image();
-        image.src = sessionStorage.getItem('si_' + url_hash);
+        image.src = sessionStorage.getItem('si_' + urlHash);
         document.getElementById('mdx-share-img-loaded-container').appendChild(image);
         ele('#mdx-share-img').style.display = 'none';
         ele('div.mdx-share-img-loading', (e) => {
@@ -811,7 +890,7 @@ function mdx_show_img(e) {
         });
         setTimeout(() => {
             window.share_dialog.handleUpdate();
-            ele(".mdx-share-img-dialog .mdui-dialog-actions", (e) => {
+            ele('.mdx-share-img-dialog .mdui-dialog-actions', (e) => {
                 let spanDom = document.createElement('span');
                 spanDom.classList.add('mdx-save-info');
                 spanDom.innerHTML = `<i class="mdui-icon material-icons">&#xe80d;</i> ${mdx_si_i18n}`
@@ -836,8 +915,8 @@ function commentNaviLink(e) {
         ele('ul.mdui-list.ajax-comments', (e) => {
             e.parentNode.removeChild(e);
         });
-        fade(ele('.mdx-comments-loading', null, 'array'), 'in', 200);
-        Velocity(ele("html"), { scrollTop: ele('#reply-title').getBoundingClientRect().top + window.pageYOffset - 65 + "px" }, 500);
+        ele('.mdx-comments-loading').style.display = 'block';
+        HTMLScrollTo.to(ele('#reply-title').getBoundingClientRect().top + window.pageYOffset - 65, 500);
         betterFetch(e.target.getAttribute('href')).then((out) => {
             let htmlParser = new DOMParser();
             let htmlParsed = htmlParser.parseFromString(out, "text/html");
@@ -863,11 +942,14 @@ function commentNavi(e) {
         ele('#comments-navi', (e) => {
             e.parentNode.removeChild(e);
         });
-        fade(ele('.mdx-comments-loading', null, 'array'), 'in', 200);
+        ele('.mdx-comments-loading').style.display = 'block';
         let elem = e.target;
         if (elem.tagName === "I") {
             elem = elem.parentNode;
         }
+        ele('.mdui-tooltip-open', (e) => {
+            e.parentNode.removeChild(e);
+        });
         betterFetch(elem.getAttribute('data-comment-url')).then((out) => {
             let htmlParser = new DOMParser();
             let htmlParsed = htmlParser.parseFromString(out, "text/html");
@@ -883,7 +965,7 @@ function commentNavi(e) {
             }
             let nextlink = '';
             if (nextUrl) {
-                htmlParsed.getElementById('comments-navi').innerHTML = `<button class="mdx-more-comments mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-ripple" data-comment-url="${htmlParsed.querySelector('#comments-navi>a.prev').getAttribute('href')}"><i class="mdui-icon material-icons">keyboard_arrow_down</i></button>`;
+                htmlParsed.getElementById('comments-navi').innerHTML = `<button class="mdx-more-comments mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-ripple" mdui-tooltip="{content: '${morecomment}'}" data-comment-url="${htmlParsed.querySelector('#comments-navi>a.prev').getAttribute('href')}"><i class="mdui-icon material-icons">keyboard_arrow_down</i></button>`;
                 nextlink = htmlParsed.getElementById('comments-navi');
             } else {
                 htmlParsed.getElementById('comments-navi').innerHTML = `<button class="mdui-btn" disabled>${nomorecomment}</button>`;
@@ -901,6 +983,7 @@ function commentNavi(e) {
                 e.style.opacity = 0;
             });
             window.addComment.init();
+            mdui.$('ul.mdui-list.ajax-comments').mutation();
             ele('.mdx-comments-loading').style.display = 'none';
         });
     }
@@ -909,7 +992,7 @@ function commentNavi(e) {
 //tap tp top
 document.getElementsByClassName("mdui-typo-headline")[0].addEventListener("click", function () {
     if (mdx_tapToTop == 1) {
-        Velocity(ele("html"), { scrollTop: "0px" }, 500);
+        HTMLScrollTo.to(0, 500);
     }
 })
 

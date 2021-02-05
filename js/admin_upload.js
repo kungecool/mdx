@@ -123,6 +123,18 @@ jQuery(document).ready(function(){
         }).open();
         return;
     });
+    jQuery('#insert-media-button-5').click(function(){
+        var custom_uploader = wp.media({
+            multiple: false,
+            library: {
+                    type: ['image']
+            }
+        }).on('select', function() {
+            var attachment = custom_uploader.state().get('selection').first().toJSON();
+            jQuery('#mdx_post_def_img_url').val(attachment.url);
+        }).open();
+        return;
+    });
     var mdx_val = jQuery('input.mdx_stbs:checked').val();
     if(mdx_val=='false'){
         jQuery('input.mdx_stbsip').attr("disabled","disabled");
@@ -133,6 +145,18 @@ jQuery(document).ready(function(){
         jQuery('input.mdx_stbsip2').attr("disabled","disabled");
         jQuery('input.mdx_stbsip22').attr("disabled","disabled");
         jQuery('input.mdx_stbsip2').removeAttr("required");
+    }
+    var mdx_val3 = jQuery('input.mdx-index-head-style-input:checked').val();
+    if(mdx_val3 === 'saying'){
+        jQuery('.mdx_index_head_style_slide').css('display', 'none');
+    }else if(mdx_val3 === 'slide'){
+        jQuery('.mdx_index_head_style_saying').css('display', 'none');
+    }
+    var mdx_val_get = jQuery('input.mdx_index_get:checked').val();
+    if(mdx_val_get === 'cat'){
+        jQuery('#mdx_index_slide_posts_cat').removeAttr("disabled");
+    }else if(mdx_val_get === 'sticky'){
+        jQuery('#mdx_index_slide_posts_cat').attr("disabled","disabled");
     }
     if(jQuery("#mdx_index_img").val()!=''){
         var img1=jQuery("#mdx_index_img").val();
@@ -152,10 +176,15 @@ jQuery(document).ready(function(){
         var img4=jQuery("#mdx_logo").val();
         jQuery('#img4').attr('src',img4);
     }
+    if(jQuery("#mdx_post_def_img_url").val()!=''){
+        var img5=jQuery("#mdx_post_def_img_url").val();
+        jQuery('#img5').attr('src',img5);
+    }
     setInterval("img1()",500);
     setInterval("img2()",500);
     setInterval("img3()",500);
     setInterval("img4()",500);
+    setInterval("img5()",500);
     setInterval("bing()",300);
     var disable_color = false;
     if(jQuery("#mdx_svg_color").attr("disabled") === "disabled"){
@@ -201,6 +230,24 @@ jQuery(".mdx_stbs2").click(function(){
         jQuery('input.mdx_stbsip2').removeAttr("required");
     }
 });
+jQuery(".mdx-index-head-style-input").click(function(){
+    var mdx_val3 = jQuery('input.mdx-index-head-style-input:checked').val();
+    if(mdx_val3 === 'saying'){
+        jQuery('.mdx_index_head_style_saying').css('display', 'table-row');
+        jQuery('.mdx_index_head_style_slide').css('display', 'none');
+    }else if(mdx_val3 === 'slide'){
+        jQuery('.mdx_index_head_style_slide').css('display', 'table-row');
+        jQuery('.mdx_index_head_style_saying').css('display', 'none');
+    }
+});
+jQuery(".mdx_index_get").click(function(){
+    var mdx_val4 = jQuery('input.mdx_index_get:checked').val();
+    if(mdx_val4 === 'cat'){
+        jQuery('#mdx_index_slide_posts_cat').removeAttr("disabled");
+    }else if(mdx_val4 === 'sticky'){
+        jQuery('#mdx_index_slide_posts_cat').attr("disabled","disabled");
+    }
+});
 jQuery("#use-api").click(function(){
     jQuery('#mdx_footer_say').val('--HitokotoAPIActivated--');
 });
@@ -239,6 +286,10 @@ function img3(){
 function img4(){
     var img4=jQuery("#mdx_logo").val();
     jQuery('#img4').attr('src',img4);
+}
+function img5(){
+    var img5=jQuery("#mdx_post_def_img_url").val();
+    jQuery('#img5').attr('src',img5);
 }
 function mdx_logo_sec(selectV){
     if(selectV == '1'){

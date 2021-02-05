@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const mdxVersion = '2.0.0';
+const mdxVersion = '2.0.1';
 
 module.exports = {
     entry: {
@@ -12,14 +12,11 @@ module.exports = {
         search: './src/search.js',
         ac: './src/ac.js',
         toc: './src/toc.js',
-        login: './src/login.js',
-        ajax: './src/ajax.js',
-        ajax_other: './src/ajax_other.js'
+        login: './src/login.js'
     },
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, 'js'),
-        publicPath: '/wp-content/themes/mdx/js',
         chunkFilename: '[name].js'
     },
     optimization: {
@@ -27,14 +24,16 @@ module.exports = {
             cacheGroups: {
                 common: { 
                     name: 'common',
-                    chunks: 'all',
+                    chunks (chunk) {
+                        return chunk.name !== 'login';
+                    },
                     minSize: 10,
                     minChunks: 2
                 }
             }
         }
     },
-    devtool: 'source-map',
+    // devtool: 'source-map',
     mode: 'production',
     module: {
         rules: [
@@ -96,11 +95,13 @@ module.exports = {
             banner: `/*
 Theme Name: MDx
 Theme URI: https://flyhigher.top/develop/788.html
-Description: MDx - Material Design WordPress Theme
+Description: MDx - Material Design 风格的 WordPress 主题
 Version: ${mdxVersion}
 Author: AxtonYao
 Author URI: https://flyhigher.top
 Tags: Material Design, Personal Blog, Simple Theme
+Text Domain: mdx
+Domain Path: /languages
 */`,
             test: /\.css$/,
             raw: true

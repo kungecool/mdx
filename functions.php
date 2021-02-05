@@ -1,28 +1,38 @@
 <?php
 $mdx_all_options = get_option("mdx_all_options");
 
-function mdx_get_option($option_name){
-    return $GLOBALS['mdx_all_options'][$option_name];
-}
-
 function mdx_update_option($option_name, $option_value){
     $GLOBALS['mdx_all_options'][$option_name] = $option_value;
-    update_option('mdx_all_options',$GLOBALS['mdx_all_options']);
+    update_option('mdx_all_options', $GLOBALS['mdx_all_options']);
     return true;
+}
+
+function mdx_get_option($option_name){
+    if(isset($GLOBALS['mdx_all_options'][$option_name])){
+        return $GLOBALS['mdx_all_options'][$option_name];
+    }
+
+    require('includes/default_value.php');
+    if(isset($mdx_default_values[$option_name])){
+        mdx_update_option($option_name, $mdx_default_values[$option_name]);
+        return $mdx_default_values[$option_name];
+    }
+
+    return false;
 }
 
 $mdx_now_url = '';
 $mdx_flag_subdir = false;
-if(stripos(explode('//', home_url())[1], "/") || mdx_get_option('mdx_install') === "sub"){
+if(stripos(explode('//', home_url())[1], '/') || mdx_get_option('mdx_install') === 'sub'){
     $mdx_flag_subdir = true;
 }
 if(!$mdx_flag_subdir){
     global $wp;
     $mdx_now_url = home_url(add_query_arg(array()));
-}else if($mdx_flag_subdir && get_option("permalink_structure") === ""){
+}else if($mdx_flag_subdir && get_option('permalink_structure') === ''){
     global $wp;
     $mdx_now_url = add_query_arg($wp->query_string, '', home_url($wp->request));
-}else if($mdx_flag_subdir && get_option("permalink_structure") !== ""){
+}else if($mdx_flag_subdir && get_option('permalink_structure') !== ''){
     global $wp;
     $current_url = home_url(add_query_arg(array(), $wp->request));
 }else{
@@ -75,8 +85,6 @@ if(!get_option('mdx_first_init')){
     include_once('includes/admin_init_fn.php');
 }
 
-//更新时初始化新功能
-require_once('includes/update.php');
 include_once('includes/admin_init_ver.php');
 
 //后台菜单添加
@@ -87,7 +95,7 @@ if(is_admin()){
 //主题升级
 require 'plugin-update-checker/plugin-update-checker.php';
 $mdxUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-    'https://update.dlij.site/mdx/info.json',
+    'https://cdn.jsdelivr.net/gh/axton-the-robot/mdx-assets/info.json',
     __FILE__,
     'mdx'
 );
@@ -135,6 +143,10 @@ function mdx_css(){
         wp_register_style('mdx_md2', $files_root.'/css/md2.css', '', '', 'all');
         wp_enqueue_style('mdx_md2');
     }
+    if(is_home() && mdx_get_option('mdx_index_head_style') === 'slide'){
+        wp_register_style('mdx_flickity_css', $files_root.'/css/flickity.min.css', '', '', 'all');
+        wp_enqueue_style('mdx_flickity_css');
+    }
 }
 add_action('wp_enqueue_scripts', 'mdx_css');
 function mdx_css_login(){
@@ -160,47 +172,46 @@ function mdx_js(){
         wp_register_script('mdx_jquery', $files_root.'/js/jquery.min.js', false, '', true);
         wp_enqueue_script('mdx_jquery');
     }
-    wp_register_script('mdx_velocity', $files_root.'/js/velocity.min.js', false, '', true);
     wp_register_script('mdx_mdui_js', $files_root.'/mdui/js/mdui.min.js', false, '', true);
     wp_register_script('mdx_common', $files_root.'/js/common.js', false, '', true);
     wp_register_script('mdx_sl_js', $files_root.'/js/lazyload.js', false, '', true);
-    wp_enqueue_script('mdx_velocity');
     wp_enqueue_script('mdx_mdui_js');
     wp_enqueue_script('mdx_common');
     if(mdx_get_option("mdx_real_search")=="true"){
         wp_register_script('mdx_rs_js', $files_root.'/js/search.js', false, '', true);
         wp_enqueue_script('mdx_rs_js');
     }
-    if(is_home()){
-        wp_register_script('mdx_ajax_js', $files_root.'/js/ajax.js', false, '', true);
-        wp_enqueue_script('mdx_ajax_js');
-    }else if(is_category()||is_archive()||is_search()){
-        wp_register_script('mdx_ajax_js', $files_root.'/js/ajax_other.js', false, '', true);
-        wp_enqueue_script('mdx_ajax_js');
-    }
     if(is_single() || is_page()){
         wp_register_script('mdx_qr_js', $files_root.'/js/qr.js', false, '', true);
-        wp_register_script('mdx_ra_js', $files_root.'/js/ra.js', false, '', true);
-        wp_register_script('mdx_h2c_js', $files_root.'/js/h2c.js', false, '', true);
         wp_enqueue_script('mdx_qr_js');
-        wp_enqueue_script('mdx_ra_js');
-        wp_enqueue_script('mdx_h2c_js');
         if(mdx_get_option("mdx_toc")=="true" && is_single()){
             wp_register_script('mdx_toc_js', $files_root.'/js/toc.js', false, '', true);
             wp_enqueue_script('mdx_toc_js');
             wp_localize_script('mdx_toc_js', 'mdx_show_preview', array("preview" => mdx_get_option("mdx_toc_preview")));
+        }
+        if (mdx_get_option("mdx_read_pro") === "true") {
+            wp_register_script('mdx_ra_js', $files_root.'/js/ra.js', false, '', true);
+            wp_enqueue_script('mdx_ra_js');
         }
     }
     if(is_singular() && comments_open() && get_option('thread_comments')){
         wp_enqueue_script('better-comment', $files_root.'/js/better_comment.js', array(), AC_VERSION , true);
         wp_enqueue_script('ajax-comment', $files_root.'/ajax-comment/app.js', array(), AC_VERSION , true);
         wp_localize_script('ajax-comment', 'ajaxcomment', array(
-            'ajax_url'   => admin_url('admin-ajax.php'),
+            'ajax_url' => admin_url('admin-ajax.php'),
             'order' => get_option('comment_order'),
             'formpostion' => 'top',
             'i18n_1' => __('发送成功。', 'mdx'),
             'i18n_2' => __('<strong>错误：</strong> 未知错误。', 'mdx'),
         ));
+    }
+    if(is_home() && mdx_get_option('mdx_index_head_style') === 'slide'){
+        wp_register_script('mdx_flickity_js', $files_root.'/js/flickity.min.js', array(), AC_VERSION , true);
+        wp_enqueue_script('mdx_flickity_js');
+    }
+    if((!is_single() && !is_page() && !is_404()) && mdx_get_option('mdx_post_list_width') === 'wide'){
+        wp_register_script('mdx_masonry_js', $files_root.'/js/masonry.min.js', array(), AC_VERSION , true);
+        wp_enqueue_script('mdx_masonry_js');
     }
     wp_enqueue_script('mdx_sl_js');
 }
@@ -219,14 +230,14 @@ if(mdx_get_option("mdx_login_md")=="true"){
 }
 
 // 添加古腾堡资源
-function mdx_load_blocks()
-{
+function mdx_load_blocks(){
   wp_enqueue_script(
     'mdx_block_js',
     get_template_directory_uri() . '/blocks/blocks.build.js',
     ['wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor'],
     true
   );
+  wp_set_script_translations('mdx_block_js', 'mdx', get_template_directory().'/blocks/languages/');
 }
 add_action('enqueue_block_editor_assets', 'mdx_load_blocks');
 
@@ -303,12 +314,12 @@ $GLOBALS['comment'] = $comment;?>
 <?php }
 
 //回复的评论加@
-function comment_add_at( $comment_text, $comment=''){
-    if( $comment->comment_parent > 0){
-    $comment_text='<a rel="nofollow" class="comment_at" href="#comment-'.$comment->comment_parent.'">@'.get_comment_author($comment->comment_parent).'：</a> '.$comment_text;
+function comment_add_at( $comment_text, $comment){
+    if ($comment->comment_parent > 0) {
+        $comment_text='<a rel="nofollow" class="comment_at" href="#comment-'.$comment->comment_parent.'">@'.get_comment_author($comment->comment_parent).'：</a> '.$comment_text;
     }
     return $comment_text;
-    }
+}
 add_filter('comment_text', 'comment_add_at', 10, 2);
 
 //获取链接
@@ -316,10 +327,10 @@ function get_link_items(){
     $linkcats = get_terms('link_category');
     if(!empty($linkcats)){
         $result = '';
-        foreach($linkcats as $linkcat){            
+        foreach($linkcats as $linkcat){
             $result.='<h3 class="link-title">'.$linkcat->name.'</h3>';
             if($linkcat->description)$result .= '<div class="link-description">'.$linkcat->description.'</div>';
-            $result .=  get_the_link_items($linkcat->term_id);
+            $result .= get_the_link_items($linkcat->term_id);
         }
     }else{
         $result = get_the_link_items();
@@ -330,9 +341,12 @@ function get_link_items(){
 function get_the_link_items($id = null){
     $mdx_gravatar_actived = mdx_get_option('mdx_gravatar_actived');
     $mdx_link_rand_order = mdx_get_option('mdx_link_rand_order');
-    $order_rule = 'category='.$id;
+    $order_rule = '';
+    if ($id !== null) {
+        $order_rule = 'category='.$id;
+    }
     if ($mdx_link_rand_order == 'true') {
-        $order_rule .= 'title_li=&orderby=rand';
+        $order_rule .= $order_rule === '' ? 'orderby=rand' : '&orderby=rand';
     }
     $bookmarks = get_bookmarks($order_rule);
     $output = '';
@@ -531,12 +545,12 @@ function mdx_breadcrumbs(){
         } elseif ( is_page() && !$post->post_parent ) {
             echo $before . get_the_title() . $after;
         } elseif ( is_page() && $post->post_parent ) {
-            $parent_id  = $post->post_parent;
+            $parent_id = $post->post_parent;
             $breadcrumbs = array();
             while ($parent_id) {
-                $page = get_page($parent_id);
+                $page = get_post($parent_id);
                 $breadcrumbs[] = '<a itemprop="breadcrumb" href="' . get_permalink($page->ID) . '">' . get_the_title($page->ID) . '</a>';
-                $parent_id  = $page->post_parent;
+                $parent_id = $page->post_parent;
             }
             $breadcrumbs = array_reverse($breadcrumbs);
             foreach ($breadcrumbs as $crumb) echo $crumb . ' ' . $delimiter . ' ';

@@ -55,55 +55,62 @@ if((isset($_POST['mdx_ref']) && $_POST['mdx_ref'] == 'true') && check_admin_refe
         'orange'=>'#ffab40',
         'deep-orange'=>'#ff6e40',
     );
-    mdx_update_option('mdx_styles', $_POST['mdx_styles']);
-    mdx_update_option('mdx_styles_hex', $mdx_color_arr[$_POST['mdx_styles']]);
-    mdx_update_option('mdx_styles_act', $_POST['mdx_styles_act']);
-    mdx_update_option('mdx_act_hex', $mdx_act_arr[$_POST['mdx_styles_act']]);
-    mdx_update_option('mdx_styles_dark', $_POST['mdx_styles_dark']);
+    mdx_update_option('mdx_styles', sanitize_text_field($_POST['mdx_styles']));
+    mdx_update_option('mdx_styles_hex', $mdx_color_arr[sanitize_text_field($_POST['mdx_styles'])]);
+    mdx_update_option('mdx_styles_act', sanitize_text_field($_POST['mdx_styles_act']));
+    mdx_update_option('mdx_act_hex', $mdx_act_arr[sanitize_text_field($_POST['mdx_styles_act'])]);
+    mdx_update_option('mdx_styles_dark', sanitize_text_field($_POST['mdx_styles_dark']));
     if($_POST['mdx_styles_dark'] !== "disable"){
         mdx_update_option('mdx_night_style', 'false');
         mdx_update_option('mdx_auto_night_style', 'false');
     }
     mdx_update_option('mdx_md2', $_POST['mdx_md2']);
-    $md2_font = $_POST['mdx_md2_font'];
+    $md2_font = sanitize_text_field($_POST['mdx_md2_font']);
     if(isset($md2_font)){
         mdx_update_option('mdx_md2_font', $md2_font);
     }else{
         mdx_update_option('mdx_md2_font', 'false');
     }
-    mdx_update_option('mdx_login_md', $_POST['mdx_login_md']);
-    mdx_update_option('mdx_chrome_color', $_POST['mdx_chrome_color']);
-    mdx_update_option('mdx_title_bar', $_POST['mdx_title_bar']);
-    mdx_update_option('mdx_tap_to_top', $_POST['mdx_tap_to_top']);
-    mdx_update_option('mdx_default_style', $_POST['mdx_default_style']);
-    mdx_update_option('mdx_index_show', $_POST['mdx_index_show']);
-    mdx_update_option('mdx_post_style', $_POST['mdx_post_style']);
-    mdx_update_option('mdx_post_time_positon', $_POST['mdx_post_time_positon']);
-    mdx_update_option('mdx_post_nav_style', $_POST['mdx_post_nav_style']);
-    mdx_update_option('mdx_echo_post_sum', $_POST['mdx_echo_post_sum']);
-    mdx_update_option('mdx_post_list_img_height', $_POST['mdx_post_list_img_height']);
-    mdx_update_option('mdx_post_def_img', $_POST['mdx_post_def_img']);
-    mdx_update_option('mdx_gravatar_actived', $_POST['mdx_gravatar_actived']);
-    mdx_update_option('mdx_link_rand_order', $_POST['mdx_link_rand_order']);
-    mdx_update_option('mdx_title_med', $_POST['mdx_title_med']);
-    mdx_update_option('mdx_index_img', $_POST['mdx_index_img']);
-    mdx_update_option('mdx_index_img_bg', $_POST['mdx_index_img_bg']);
-    mdx_update_option('mdx_side_img', $_POST['mdx_side_img']);
-    mdx_update_option('mdx_side_info', $_POST['mdx_side_info']);
-    mdx_update_option('mdx_side_head', $_POST['mdx_side_head']);
+    mdx_update_option('mdx_login_md', sanitize_text_field($_POST['mdx_login_md']));
+    mdx_update_option('mdx_chrome_color', sanitize_text_field($_POST['mdx_chrome_color']));
+    mdx_update_option('mdx_title_bar', sanitize_text_field($_POST['mdx_title_bar']));
+    mdx_update_option('mdx_tap_to_top', sanitize_text_field($_POST['mdx_tap_to_top']));
+    mdx_update_option('mdx_default_style', sanitize_text_field($_POST['mdx_default_style']));
+    mdx_update_option('mdx_index_show', sanitize_text_field($_POST['mdx_index_show']));
+    mdx_update_option('mdx_post_style', sanitize_text_field($_POST['mdx_post_style']));
+    mdx_update_option('mdx_post_time_positon', sanitize_text_field($_POST['mdx_post_time_positon']));
+    mdx_update_option('mdx_post_nav_style', sanitize_text_field($_POST['mdx_post_nav_style']));
+    mdx_update_option('mdx_post_list_width', sanitize_text_field($_POST['mdx_post_list_width']));
+    mdx_update_option('mdx_echo_post_sum', sanitize_text_field($_POST['mdx_echo_post_sum']));
+    mdx_update_option('mdx_post_list_img_height', sanitize_text_field($_POST['mdx_post_list_img_height']));
+    mdx_update_option('mdx_post_def_img', sanitize_text_field($_POST['mdx_post_def_img']));
+    mdx_update_option('mdx_post_def_img_url', esc_url_raw($_POST['mdx_post_def_img_url'] === '' ? get_template_directory_uri().'/img/dpic.jpg' : $_POST['mdx_post_def_img_url']));
+    mdx_update_option('mdx_gravatar_actived', sanitize_text_field($_POST['mdx_gravatar_actived']));
+    mdx_update_option('mdx_link_rand_order', sanitize_text_field($_POST['mdx_link_rand_order']));
+    mdx_update_option('mdx_title_med', sanitize_text_field($_POST['mdx_title_med']));
+    mdx_update_option('mdx_index_head_style', sanitize_text_field($_POST['mdx_index_head_style']));
+    mdx_update_option('mdx_index_slide_posts_style', sanitize_text_field($_POST['mdx_index_slide_posts_style']));
+    mdx_update_option('mdx_index_slide_posts_num', sanitize_text_field($_POST['mdx_index_slide_posts_num']));
+    mdx_update_option('mdx_index_slide_posts_get', sanitize_text_field($_POST['mdx_index_slide_posts_get']));
+    mdx_update_option('mdx_index_slide_posts_cat', sanitize_text_field($_POST['mdx_index_slide_posts_cat']));
+    mdx_update_option('mdx_index_img', sanitize_text_field($_POST['mdx_index_img']));
+    mdx_update_option('mdx_index_img_bg', sanitize_text_field($_POST['mdx_index_img_bg']));
+    mdx_update_option('mdx_side_img', esc_url_raw($_POST['mdx_side_img']));
+    mdx_update_option('mdx_side_info', sanitize_text_field($_POST['mdx_side_info']));
+    mdx_update_option('mdx_side_head', esc_url_raw($_POST['mdx_side_head']));
     mdx_update_option('mdx_side_name', htmlentities(stripslashes($_POST['mdx_side_name'])));
     mdx_update_option('mdx_side_more', htmlentities(stripslashes($_POST['mdx_side_more'])));
     mdx_update_option('mdx_index_say', htmlentities(stripslashes($_POST['mdx_index_say'])));
-    mdx_update_option('mdx_index_say_size', $_POST['mdx_index_say_size']);
+    mdx_update_option('mdx_index_say_size', sanitize_text_field($_POST['mdx_index_say_size']));
     mdx_update_option('mdx_say_after', htmlentities(stripslashes($_POST['mdx_say_after'])));
-    mdx_update_option('mdx_logo_way', $_POST['mdx_logo_way']);
-    mdx_update_option('mdx_logo', $_POST['mdx_logo']);
-    mdx_update_option('mdx_logo_text', $_POST['mdx_logo_text']);
-    mdx_update_option('mdx_safari', $_POST['mdx_safari']);
-    mdx_update_option('mdx_svg', $_POST['mdx_svg']);
-    mdx_update_option('mdx_svg_color', $_POST['mdx_svg_color']);
-    mdx_update_option('mdx_tags_color', $_POST['mdx_tags_color']);
-    mdx_update_option('mdx_styles_footer', $_POST['mdx_styles_footer']);
+    mdx_update_option('mdx_logo_way', sanitize_text_field($_POST['mdx_logo_way']));
+    mdx_update_option('mdx_logo', esc_url_raw($_POST['mdx_logo']));
+    mdx_update_option('mdx_logo_text', sanitize_text_field($_POST['mdx_logo_text']));
+    mdx_update_option('mdx_safari', sanitize_text_field($_POST['mdx_safari']));
+    mdx_update_option('mdx_svg', esc_url_raw($_POST['mdx_svg']));
+    mdx_update_option('mdx_svg_color', sanitize_text_field($_POST['mdx_svg_color']));
+    mdx_update_option('mdx_tags_color', sanitize_text_field($_POST['mdx_tags_color']));
+    mdx_update_option('mdx_styles_footer', sanitize_text_field($_POST['mdx_styles_footer']));
     mdx_update_option('mdx_footer_say', htmlentities(stripslashes($_POST['mdx_footer_say'])));
     mdx_update_option('mdx_footer', htmlentities(stripslashes($_POST['mdx_footer'])));
 ?>
@@ -121,6 +128,14 @@ if((isset($_POST['mdx_ref']) && $_POST['mdx_ref'] == 'true') && check_admin_refe
 <?php if(get_option('mdx_new_ver') != get_option('mdx_version')){?>
 <div class="notice notice-info is-dismissible">
 <p><?php _e('MDx 已发布新版本 ', 'mdx');echo get_option('mdx_new_ver');_e('。<a href="./admin.php?page=mdx_about">重新检查</a>', 'mdx');?></p>
+</div>
+<?php }
+if(!defined('ALU_VERSION')){
+    define('ALU_VERSION', '1.0.6');
+}
+if(ALU_VERSION !== '1.0.6'){?>
+<div class="notice notice-warning is-dismissible">
+<p><?php _e('你似乎正在使用旧版本的 Alu 表情插件。这与 MDx 2.x 不兼容，你需要前往 <a href="https://doc.flyhigher.top/mdx/zh-CN/config/emoji-in-comment/" target="_blank">MDx 文档</a> 下载安装新版插件。', 'mdx');?></p>
 </div>
 <?php }?>
 <nav class="nav-tab-wrapper wp-clearfix" aria-label="Secondary menu"> 
@@ -251,6 +266,15 @@ wp_nonce_field('mdx_options_update');
         </fieldset>
     </td>
     </tr>
+    <tr>
+    <th scope="row"><?php _e('文章默认特色图像', 'mdx');?></th>
+    <td>
+    <input name="mdx_post_def_img_url" type="text" id="mdx_post_def_img_url" value="<?php echo esc_attr(mdx_get_option('mdx_post_def_img_url'))?>" class="regular-text">
+    <button type="button" id="insert-media-button-5" class="button" style="margin-top:5px;display:block"><?php _e('选择图片', 'mdx');?></button>
+    <p class="description"><?php _e('指定文章默认特色图像，留空则使用主题内置默认特色图像。', 'mdx');?></p>
+    <img id="img5" style="width:100%;max-width:300px;height:auto;margin-top:5px;"></img>
+    </td>
+    </tr>
 </tbody>
 
 <tbody class="mdx-admin-section" id="mdx-admin-nav-index-section">
@@ -262,7 +286,7 @@ wp_nonce_field('mdx_options_update');
         <option value="0" <?php if($mdx_v_index_show=='0'){?>selected="selected"<?php }?>><?php _e('默认', 'mdx');?></option>
         <option value="1" <?php if($mdx_v_index_show=='1'){?>selected="selected"<?php }?>><?php _e('简单', 'mdx');?></option>
         <option value="2" <?php if($mdx_v_index_show=='2'){?>selected="selected"<?php }?>><?php _e('两栏', 'mdx');?></option>
-        <option value="3" <?php if($mdx_v_index_show=='3'){?>selected="selected"<?php }?>><?php _e('现代', 'mdx');?></option>
+        <!-- <option value="3" <?php if($mdx_v_index_show=='3'){?>selected="selected"<?php }?>><?php _e('现代', 'mdx');?></option> -->
         <option value="4" <?php if($mdx_v_index_show=='4'){?>selected="selected"<?php }?>><?php _e('朴素', 'mdx');?></option>
     </select>
     <div class="mdx-svg-preview" id="mdx-index-preview"></div>
@@ -273,7 +297,7 @@ wp_nonce_field('mdx_options_update');
     <td>
     <input name="mdx_index_img" type="text" id="mdx_index_img" value="<?php echo esc_attr(mdx_get_option('mdx_index_img'))?>" class="regular-text" readonly="readonly" required="required">
     <button type="button" id="insert-media-button" class="button"><?php _e('选择图片', 'mdx');?></button> <button type="button" id="use-bing-api" class="button mdx_stbsip8"><?php _e('使用必应美图', 'mdx');?></button>
-    <p class="description"><?php _e('你可以上传或指定你的媒体库中的图片作为首页上方显示的图片。<strong>注意，“简单”首页样式不会显示首页图片。</strong><br>如使用必应美图，可在括号内指定图片的日期。0为今日图片，-1为明日准备使用的图片，1为昨日的图片，以此类推，最多到前16日。', 'mdx');?></p>
+    <p class="description"><?php _e('你可以上传或指定你的媒体库中的图片作为首页上方显示的图片。<strong>注意，“简单”和“朴素”首页样式不会显示首页图片。</strong><br>无论你是否使用首页幻灯片，你都需要设定一张首页图片。<br>如使用必应美图，可在括号内指定图片的日期。0为今日图片，-1为明日准备使用的图片，1为昨日的图片，以此类推，最多到前16日。', 'mdx');?></p>
     <img id="img1" style="width:100%;max-width:300px;height:auto;margin-top:5px;"></img>
     </td>
     </tr>
@@ -287,14 +311,26 @@ wp_nonce_field('mdx_options_update');
         <p class="description"><?php _e('在首页图片中含大面积白色导致首页格言无法看清时启用此选项。在部分首页样式下不生效。', 'mdx');?></p>
     </fieldset>
     </td>
-    </tr><tr>
+    </tr>
+    <tr>
+    <th scope="row"><?php _e('首页头部展示内容', 'mdx');?></th>
+    <td>
+    <?php $mdx_v_index_head_style=mdx_get_option('mdx_index_head_style');?>
+    <fieldset>
+        <label><input class="mdx-index-head-style-input" type="radio" name="mdx_index_head_style" value="saying" <?php if($mdx_v_index_head_style=='saying'){?>checked="checked"<?php }?>> <?php _e('格言', 'mdx');?></label><br>
+        <label><input class="mdx-index-head-style-input" type="radio" name="mdx_index_head_style" value="slide" <?php if($mdx_v_index_head_style=='slide'){?>checked="checked"<?php }?>> <?php _e('幻灯片', 'mdx');?></label><br>
+        <p class="description"><?php _e('指定首页头部展示的内容。在下方进行详细设置。', 'mdx');?></p>
+    </fieldset>
+    </td>
+    </tr>
+    <tr class="mdx_index_head_style_saying">
     <th scope="row"><?php _e('首页格言', 'mdx');?></th>
     <td>
-    <input name="mdx_index_say" type="text" id="mdx_index_say" value="<?php echo esc_attr(mdx_get_option('mdx_index_say'))?>" class="regular-text">
+    <input name="mdx_index_say" type="text" id="mdx_index_say" value="<?php echo esc_attr(mdx_get_option('mdx_index_say'))?>" class="regular-text mdx_index_head_style">
     <p class="description"><?php _e('这句话会展示在首页。', 'mdx');?></p>
     </td>
     </tr>
-    <tr>
+    <tr class="mdx_index_head_style_saying">
     <th scope="row"><label for="mdx_index_say_size"><?php _e('首页格言字体大小', 'mdx');?></label></th>
     <td>
     <?php $mdx_v_index_say_size=mdx_get_option('mdx_index_say_size');?>
@@ -308,6 +344,38 @@ wp_nonce_field('mdx_options_update');
     </select>
     <p class="description"><?php _e('字体大小由 H1 至 H6 依次变小。在部分首页样式中无效。', 'mdx');?></p>
     </td>
+    </tr>
+    <tr class="mdx_index_head_style_slide">
+    <th scope="row"><label for="mdx_index_slide_posts_style"><?php _e('首页幻灯片样式', 'mdx');?></label></th>
+    <td>
+    <?php $mdx_v_index_slide_posts_style=mdx_get_option('mdx_index_slide_posts_style');?>
+    <select name="mdx_index_slide_posts_style" id="mdx_index_slide_posts_style">
+        <option value="1" <?php if($mdx_v_index_slide_posts_style=='1'){?>selected="selected"<?php }?>><?php _e('居中', 'mdx');?></option>
+        <option value="2" <?php if($mdx_v_index_slide_posts_style=='2'){?>selected="selected"<?php }?>><?php _e('现代', 'mdx');?></option>
+        <option value="3" <?php if($mdx_v_index_slide_posts_style=='3'){?>selected="selected"<?php }?>><?php _e('朴素', 'mdx');?></option>
+    </select>
+    </td>
+    </tr>
+    <tr class="mdx_index_head_style_slide">
+    <th scope="row"><label for="mdx_index_slide_posts_num"><?php _e('首页幻灯片文章数量', 'mdx');?></label></th>
+    <td><input name="mdx_index_slide_posts_num" type="text" id="mdx_index_slide_posts_num" value="<?php echo esc_attr(mdx_get_option('mdx_index_slide_posts_num'))?>" class="regular-text">
+    <p class="description"><?php _e('在此设定首页幻灯片文章篇数。请输入整数。', 'mdx');?></p></td>
+    </tr>
+    <tr class="mdx_index_head_style_slide">
+    <th scope="row"><?php _e('首页幻灯片文章获取方式', 'mdx');?></th>
+    <td>
+    <?php $mdx_v_index_slide_posts_get=mdx_get_option('mdx_index_slide_posts_get');?>
+        <fieldset>
+        <label><input type="radio" class="mdx_index_get" name="mdx_index_slide_posts_get" value="cat" <?php if($mdx_v_index_slide_posts_get=='cat'){?>checked="checked"<?php }?>> <?php _e('某一分类', 'mdx');?></label><br>
+        <label><input type="radio" class="mdx_index_get" name="mdx_index_slide_posts_get" value="sticky" <?php if($mdx_v_index_slide_posts_get=='sticky'){?>checked="checked"<?php }?>> <?php _e('置顶文章', 'mdx');?></label><br>
+        <p class="description"><?php _e('在此设定首页幻灯片文章的获取方式。<br>若选择置顶文章，当没有置顶文章时，将会显示首页图片，同时文章列表将保持原始顺序而不会被置顶文章打乱。', 'mdx');?></p>
+        </fieldset>
+    </td>
+    </tr>
+    <tr class="mdx_index_head_style_slide">
+    <th scope="row"><label for="mdx_index_slide_posts_cat"><?php _e('首页幻灯片文章分类名', 'mdx');?></label></th>
+    <td><input name="mdx_index_slide_posts_cat" type="text" id="mdx_index_slide_posts_cat" value="<?php echo esc_attr(mdx_get_option('mdx_index_slide_posts_cat'))?>" class="regular-text">
+    <p class="description"><?php _e('在此设定首页幻灯片文章的分类名。当分类不存在时，将显示最新文章。', 'mdx');?></p></td>
     </tr>
 </tbody>
 
@@ -366,11 +434,21 @@ wp_nonce_field('mdx_options_update');
         <option value="3" <?php if($mdx_v_default_style=='3'){?>selected="selected"<?php }?>><?php _e('干净', 'mdx');?></option>
         <option value="4" <?php if($mdx_v_default_style=='4'){?>selected="selected"<?php }?>><?php _e('网格', 'mdx');?></option>
         <option value="5" <?php if($mdx_v_default_style=='5'){?>selected="selected"<?php }?>><?php _e('朴素', 'mdx');?></option>
-        <option value="6" <?php if($mdx_v_default_style=='6'){?>selected="selected"<?php }?>><?php _e('现代', 'mdx');?></option>
-        <option value="7" <?php if($mdx_v_default_style=='7'){?>selected="selected"<?php }?>><?php _e('图文列表', 'mdx');?></option>
+        <!-- <option value="6" <?php if($mdx_v_default_style=='6'){?>selected="selected"<?php }?>><?php _e('现代', 'mdx');?></option> -->
     </select>
     <div class="mdx-svg-preview" id="mdx-list-preview"></div>
     <p class="description"><?php _e('同时影响首页、搜索结果页、归档页的文章列表样式。', 'mdx');?></p>
+    </td>
+    </tr>
+    <tr>
+    <th scope="row"><?php _e('文章列表宽度', 'mdx');?></th>
+    <td>
+    <?php $mdx_v_post_list_width=mdx_get_option('mdx_post_list_width');?>
+        <fieldset>
+        <label><input type="radio" name="mdx_post_list_width" value="normal" <?php if($mdx_v_post_list_width=='normal'){?>checked="checked"<?php }?>> <?php _e('正常', 'mdx');?></label><br>
+        <label><input type="radio" name="mdx_post_list_width" value="wide" <?php if($mdx_v_post_list_width=='wide'){?>checked="checked"<?php }?>> <?php _e('较宽', 'mdx');?></label><br>
+        </fieldset>
+        <p class="description"><?php _e('使用“较宽”，文章列表将会以多列瀑布流显示。', 'mdx');?></p>
     </td>
     </tr>
     <tr>
@@ -442,7 +520,7 @@ wp_nonce_field('mdx_options_update');
         <fieldset>
         <label><input type="radio" name="mdx_tap_to_top" value="true" <?php if($mdx_v_tap_to_top=='true'){?>checked="checked"<?php }?>> <?php echo $trueon;?></label><br>
         <label><input type="radio" name="mdx_tap_to_top" value="false" <?php if($mdx_v_tap_to_top=='false'){?>checked="checked"<?php }?>> <?php echo $falseoff;?></label><br>
-        <p class="description"><?php _e('开启后，点击标题栏可以返回页面顶部。此设置影响所有页面。</strong>', 'mdx');?></p>
+        <p class="description"><?php _e('开启后，点击标题栏可以返回页面顶部。此设置影响所有页面。', 'mdx');?></p>
         </fieldset>
     </td>
     </tr>
@@ -474,7 +552,7 @@ wp_nonce_field('mdx_options_update');
     <input name="mdx_side_head" type="url" id="mdx_side_head" value="<?php echo esc_attr(mdx_get_option('mdx_side_head'))?>" class="regular-text mdx_stbsip22">
     <button type="button" id="insert-media-button-4" class="button mdx_stbsip1 mdx_stbsip22"><?php _e('选择图片', 'mdx');?></button>
     <p class="description"><?php _e('选择一张图片作为抽屉顶部显示的头像。留空则不显示。', 'mdx');?></p>
-    <img id="img3" style="width:100%;max-width:300px;height:auto;margin-top:5px;;margi-top:5px;"></img>
+    <img id="img3" style="width:100%;max-width:300px;height:auto;margin-top:5px;;margin-top:5px;"></img>
     </td>
     </tr>
     <tr>
@@ -542,7 +620,7 @@ wp_nonce_field('mdx_options_update');
     <th scope="row"><label for="mdx_svg_color"><?php _e('Touch Bar 图标背景颜色', 'mdx');?></label></th>
     <td><input class="mdx_stbsip regular-text mdx_stbsip3" name="mdx_svg_color" type="text" id="mdx_svg_color" value="<?php echo esc_attr(mdx_get_option('mdx_svg_color'))?>" required="required"><br>
     <a id="change-color" class="button mdx_stbsip5" href="javascript:jQuery('#mdx_svg_color').val('<?php echo mdx_get_option('mdx_styles_hex');?>');jQuery('#mdx_svg_color').wpColorPicker('color', '<?php echo mdx_get_option('mdx_styles_hex');?>');"><?php _e('使用当前主题颜色', 'mdx');?></a>
-    <p class="description" id="mdx_footer"><?php _e('请设置 Touch Bar 图标背景颜色。16进制颜色或 RGB 颜色。', 'mdx');?></p></td>
+    <p class="description" id="mdx_footer"><?php _e('请设置 Touch Bar 图标背景颜色。16 进制颜色或 RGB 颜色。', 'mdx');?></p></td>
     </tr>
 </tbody>
 

@@ -1,6 +1,6 @@
 <?php
 function mdx_admin_function(){
-    add_menu_page(__('MDx主题', 'mdx'), __('MDx 主题', 'mdx'), 'manage_options', 'mdx_admin','mdx_display_sub_function','dashicons-admin-customizer');
+    add_menu_page(__('MDx 主题', 'mdx'), __('MDx 主题', 'mdx'), 'manage_options', 'mdx_admin','mdx_display_sub_function','dashicons-admin-customizer');
 }
 function mdx_add_admin(){
     add_submenu_page('mdx_admin', __('MDx 主题 - 样式', 'mdx'), __('样式', 'mdx'), 'manage_options', 'mdx_styles', 'mdx_display_sub_function_one');
@@ -40,11 +40,7 @@ function mdx_display_sub_function_three(){
     }
 
     if(function_exists('file_get_contents')){
-        $opt1 = array(
-            'http'=>array('method'=>"GET",'header'=>"User-Agent: MDxThemeinWordPress\r\n")
-        );
-        $contexts1 = stream_context_create($opt1);
-        $mdx_data = json_decode(file_get_contents('https://update.dlij.site/mdx/info.json', false, $contexts1));
+        $mdx_data = json_decode(file_get_contents('https://cdn.jsdelivr.net/gh/axton-the-robot/mdx-assets/info.json', false));
         $mdx_now_version = $mdx_data->version;
         update_option('mdx_new_ver',$mdx_now_version);
     }else{

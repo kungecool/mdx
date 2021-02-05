@@ -21,56 +21,57 @@ if((isset($_POST['mdx_ref']) && $_POST['mdx_ref'] == 'true') && check_admin_refe
         mdx_update_option('mdx_auto_night_style', 'false');
     }
     mdx_update_option('mdx_notice', htmlentities(stripslashes($_POST['mdx_notice'])));
-    mdx_update_option('mdx_open_side', $_POST['mdx_open_side']);
-    mdx_update_option('mdx_widget', $_POST['mdx_widget']);
+    mdx_update_option('mdx_open_side', sanitize_text_field($_POST['mdx_open_side']));
+    mdx_update_option('mdx_widget', sanitize_text_field($_POST['mdx_widget']));
     mdx_update_option('mdx_cookie', htmlentities(stripslashes($_POST['mdx_cookie'])));
-    mdx_update_option('mdx_cookie_flag', $_POST['mdx_cookie_flag']);
-    mdx_update_option('mdx_allow_scale', $_POST['mdx_allow_scale']);
-    mdx_update_option('mdx_reduce_motion', $_POST['mdx_reduce_motion']);
-    mdx_update_option('mdx_img_box', $_POST['mdx_img_box']);
-    mdx_update_option("mdx_readmore", $_POST['mdx_readmore']);
-    mdx_update_option("mdx_post_money", $_POST['mdx_post_money']);
-    mdx_update_option('mdx_read_pro', $_POST['mdx_read_pro']);
-    mdx_update_option('mdx_auto_scroll', $_POST['mdx_auto_scroll']);
-    mdx_update_option('mdx_toc', $_POST['mdx_toc']);
-    mdx_update_option('mdx_toc_preview', $_POST['mdx_toc_preview']);
-    mdx_update_option('mdx_load_pro', $_POST['mdx_load_pro']);
-    mdx_update_option('mdx_post_list_click_area', $_POST['mdx_post_list_click_area']);
-    mdx_update_option('mdx_post_list_1', $_POST['mdx_post_list_1']);
-    mdx_update_option('mdx_post_list_2', $_POST['mdx_post_list_2']);
-    mdx_update_option('mdx_post_list_3', $_POST['mdx_post_list_3']);
-    mdx_update_option('mdx_post_edit_time', $_POST['mdx_post_edit_time']);
-    mdx_update_option('mdx_author_card', $_POST['mdx_author_card']);
-    mdx_update_option("mdx_lazy_load_mode", $_POST['mdx_lazy_load_mode']);
-    mdx_update_option("mdx_lazyload_fallback", $_POST['mdx_lazyload_fallback']);
-    mdx_update_option("mdx_enhanced_ajax", $_POST['mdx_enhanced_ajax']);
-    mdx_update_option('mdx_speed_pre', $_POST['mdx_speed_pre']);
-    mdx_update_option('mdx_share_area', $_POST['mdx_share_area']);
-    mdx_update_option('mdx_hot_posts', $_POST['mdx_hot_posts']);
-    mdx_update_option('mdx_hot_posts_get', $_POST['mdx_hot_posts_get']);
-    mdx_update_option('mdx_hot_posts_num', $_POST['mdx_hot_posts_num']);
-    mdx_update_option('mdx_hot_posts_cat', $_POST['mdx_hot_posts_cat']);
-    mdx_update_option('mdx_hot_posts_text', $_POST['mdx_hot_posts_text']);
-    mdx_update_option('mdx_all_posts_text', $_POST['mdx_all_posts_text']);
-    mdx_update_option('mdx_you_may_like', $_POST['mdx_you_may_like']);
-    mdx_update_option('mdx_you_may_like_way', $_POST['mdx_you_may_like_way']);
-    mdx_update_option('mdx_you_may_like_text', $_POST['mdx_you_may_like_text']);
-    mdx_update_option('mdx_real_search', $_POST['mdx_real_search']);
-    mdx_update_option('mdx_submit_comment', $_POST['mdx_submit_comment']);
-    mdx_update_option('mdx_comment_ajax', $_POST['mdx_comment_ajax']);
-    mdx_update_option('mdx_comment_emj', $_POST['mdx_comment_emj']);
+    mdx_update_option('mdx_cookie_flag', sanitize_text_field($_POST['mdx_cookie_flag']));
+    mdx_update_option('mdx_allow_scale', sanitize_text_field($_POST['mdx_allow_scale']));
+    mdx_update_option('mdx_reduce_motion', sanitize_text_field($_POST['mdx_reduce_motion']));
+    mdx_update_option('mdx_img_box', sanitize_text_field($_POST['mdx_img_box']));
+    mdx_update_option('mdx_img_box_show_alt', sanitize_text_field($_POST['mdx_img_box_show_alt']));
+    mdx_update_option("mdx_readmore", sanitize_text_field($_POST['mdx_readmore']));
+    mdx_update_option("mdx_post_money", esc_url_raw($_POST['mdx_post_money']));
+    mdx_update_option('mdx_read_pro', sanitize_text_field($_POST['mdx_read_pro']));
+    mdx_update_option('mdx_auto_scroll', sanitize_text_field($_POST['mdx_auto_scroll']));
+    mdx_update_option('mdx_toc', sanitize_text_field($_POST['mdx_toc']));
+    mdx_update_option('mdx_toc_preview', sanitize_text_field($_POST['mdx_toc_preview']));
+    mdx_update_option('mdx_load_pro', sanitize_text_field($_POST['mdx_load_pro']));
+    mdx_update_option('mdx_post_list_click_area', sanitize_text_field($_POST['mdx_post_list_click_area']));
+    mdx_update_option('mdx_post_list_1', sanitize_text_field($_POST['mdx_post_list_1']));
+    mdx_update_option('mdx_post_list_2', sanitize_text_field($_POST['mdx_post_list_2']));
+    mdx_update_option('mdx_post_list_3', sanitize_text_field($_POST['mdx_post_list_3']));
+    mdx_update_option('mdx_post_edit_time', sanitize_text_field($_POST['mdx_post_edit_time']));
+    mdx_update_option('mdx_author_card', sanitize_text_field($_POST['mdx_author_card']));
+    mdx_update_option("mdx_lazy_load_mode", sanitize_text_field($_POST['mdx_lazy_load_mode']));
+    mdx_update_option("mdx_lazyload_fallback", sanitize_text_field($_POST['mdx_lazyload_fallback']));
+    mdx_update_option("mdx_enhanced_ajax", sanitize_text_field($_POST['mdx_enhanced_ajax']));
+    mdx_update_option('mdx_speed_pre', sanitize_text_field($_POST['mdx_speed_pre']));
+    mdx_update_option('mdx_share_area', sanitize_text_field($_POST['mdx_share_area']));
+    mdx_update_option('mdx_hot_posts', sanitize_text_field($_POST['mdx_hot_posts']));
+    mdx_update_option('mdx_hot_posts_get', sanitize_text_field($_POST['mdx_hot_posts_get']));
+    mdx_update_option('mdx_hot_posts_num', sanitize_text_field($_POST['mdx_hot_posts_num']));
+    mdx_update_option('mdx_hot_posts_cat', sanitize_text_field($_POST['mdx_hot_posts_cat']));
+    mdx_update_option('mdx_hot_posts_text', sanitize_text_field($_POST['mdx_hot_posts_text']));
+    mdx_update_option('mdx_all_posts_text', sanitize_text_field($_POST['mdx_all_posts_text']));
+    mdx_update_option('mdx_you_may_like', sanitize_text_field($_POST['mdx_you_may_like']));
+    mdx_update_option('mdx_you_may_like_num', sanitize_text_field($_POST['mdx_you_may_like_num']));
+    mdx_update_option('mdx_you_may_like_way', sanitize_text_field($_POST['mdx_you_may_like_way']));
+    mdx_update_option('mdx_you_may_like_text', sanitize_text_field($_POST['mdx_you_may_like_text']));
+    mdx_update_option('mdx_real_search', sanitize_text_field($_POST['mdx_real_search']));
+    mdx_update_option('mdx_submit_comment', sanitize_text_field($_POST['mdx_submit_comment']));
+    mdx_update_option('mdx_comment_ajax', sanitize_text_field($_POST['mdx_comment_ajax']));
+    mdx_update_option('mdx_comment_emj', sanitize_text_field($_POST['mdx_comment_emj']));
     mdx_update_option('mdx_ad', htmlentities(stripslashes($_POST['mdx_ad'])));
-    mdx_update_option('mdx_logged_in_ad', $_POST['mdx_logged_in_ad']);
-    mdx_update_option('mdx_comment_ajax', $_POST['mdx_comment_ajax']);
-    mdx_update_option('mdx_seo_key', $_POST['mdx_seo_key']);
-    mdx_update_option('mdx_auto_des', $_POST['mdx_auto_des']);
+    mdx_update_option('mdx_logged_in_ad', sanitize_text_field($_POST['mdx_logged_in_ad']));
+    mdx_update_option('mdx_seo_key', sanitize_text_field($_POST['mdx_seo_key']));
+    mdx_update_option('mdx_auto_des', sanitize_text_field($_POST['mdx_auto_des']));
     mdx_update_option('mdx_seo_des', htmlentities(stripslashes($_POST['mdx_seo_des'])));
     mdx_update_option('mdx_head_js', htmlentities(stripslashes($_POST['mdx_head_js'])));
     mdx_update_option('mdx_footer_js', htmlentities(stripslashes($_POST['mdx_footer_js'])));
-    mdx_update_option('mdx_icp_num', $_POST['mdx_icp_num']);
-    mdx_update_option("mdx_use_cdn", $_POST['mdx_use_cdn']);
-    mdx_update_option("mdx_custom_cdn_root", $_POST['mdx_custom_cdn_root']);
-    mdx_update_option("mdx_jquery", $_POST['mdx_jquery']);
+    mdx_update_option('mdx_icp_num', sanitize_text_field($_POST['mdx_icp_num']));
+    mdx_update_option("mdx_use_cdn", sanitize_text_field($_POST['mdx_use_cdn']));
+    mdx_update_option("mdx_custom_cdn_root", esc_url_raw($_POST['mdx_custom_cdn_root']));
+    mdx_update_option("mdx_jquery", sanitize_text_field($_POST['mdx_jquery']));
 ?>
 <div class="notice notice-success is-dismissible">
 <p><?php _e('设置已保存。', 'mdx'); ?></p>
@@ -87,9 +88,17 @@ if((isset($_POST['mdx_ref']) && $_POST['mdx_ref'] == 'true') && check_admin_refe
 <div class="notice notice-info is-dismissible">
 <p><?php _e('MDx 已发布新版本 ', 'mdx');echo get_option('mdx_new_ver');_e('。<a href="./admin.php?page=mdx_about">重新检查</a>', 'mdx');?></p>
 </div>
+<?php }
+if(!defined('ALU_VERSION')){
+    define('ALU_VERSION', '1.0.6');
+}
+if(ALU_VERSION !== '1.0.6'){?>
+<div class="notice notice-warning is-dismissible">
+<p><?php _e('你似乎正在使用旧版本的 Alu 表情插件。这与 MDx 2.x 不兼容，你需要前往 <a href="https://doc.flyhigher.top/mdx/zh-CN/config/emoji-in-comment/" target="_blank">MDx 文档</a> 下载安装新版插件。', 'mdx');?></p>
+</div>
 <?php }?>
 <nav class="nav-tab-wrapper wp-clearfix" aria-label="Secondary menu"> 
-    <a href="#" class="nav-tab nav-tab-active mdx-admin-nav" id="mdx-admin-nav-post"><?php _e('文章', 'mdx');?></a>
+    <a href="#" class="nav-tab nav-tab-active mdx-admin-nav" id="mdx-admin-nav-post"><?php _e('文章页', 'mdx');?></a>
     <a href="#" class="nav-tab mdx-admin-nav" id="mdx-admin-nav-post-list"><?php _e('文章列表', 'mdx');?></a>
     <a href="#" class="nav-tab mdx-admin-nav" id="mdx-admin-nav-toc"><?php _e('目录', 'mdx');?></a>
     <a href="#" class="nav-tab mdx-admin-nav" id="mdx-admin-nav-suggestion"><?php _e('推荐文章', 'mdx');?></a>
@@ -115,9 +124,20 @@ wp_nonce_field('mdx_options_update');
     <td>
     <?php $mdx_v_img_box=mdx_get_option('mdx_img_box');?>
         <fieldset>
-        <label><input type="radio" name="mdx_img_box" value="true" <?php if($mdx_v_img_box=='true'){?>checked="checked"<?php }?>> <?php echo $trueon;?></label><br>
-        <label><input type="radio" name="mdx_img_box" value="false" <?php if($mdx_v_img_box=='false'){?>checked="checked"<?php }?>> <?php echo $falseoff;?></label><br>
+        <label><input type="radio" class="mdx_img_box" name="mdx_img_box" value="true" <?php if($mdx_v_img_box=='true'){?>checked="checked"<?php }?>> <?php echo $trueon;?></label><br>
+        <label><input type="radio" class="mdx_img_box" name="mdx_img_box" value="false" <?php if($mdx_v_img_box=='false'){?>checked="checked"<?php }?>> <?php echo $falseoff;?></label><br>
         <p class="description"><?php _e('开启后，对于文章内包裹在指向自身的链接中的图片可点击查看大图。', 'mdx');?></p>
+        </fieldset>
+    </td>
+    </tr>
+    <tr>
+    <th scope="row"><?php _e('ImgBox 显示描述文本', 'mdx');?></th>
+    <td>
+    <?php $mdx_v_img_box_show_alt=mdx_get_option('mdx_img_box_show_alt');?>
+        <fieldset>
+        <label><input type="radio" class="mdx_img_box_alt" name="mdx_img_box_show_alt" value="true" <?php if($mdx_v_img_box_show_alt=='true'){?>checked="checked"<?php }?>> <?php echo $trueon;?></label><br>
+        <label><input type="radio" class="mdx_img_box_alt" name="mdx_img_box_show_alt" value="false" <?php if($mdx_v_img_box_show_alt=='false'){?>checked="checked"<?php }?>> <?php echo $falseoff;?></label><br>
+        <p class="description"><?php _e('开启后，点击查看大图时，如果图片的 <code>alt</code> 属性不为空，图片下方将会显示 <code>alt</code> 属性内的文本。', 'mdx');?></p>
         </fieldset>
     </td>
     </tr>
@@ -192,7 +212,7 @@ wp_nonce_field('mdx_options_update');
         <option value="china" <?php if($mdx_v_share_area=='china'){?>selected="selected"<?php }?>><?php _e('只有中国国内服务商', 'mdx');?></option>
         <option value="oversea" <?php if($mdx_v_share_area=='oversea'){?>selected="selected"<?php }?>><?php _e('只有国际服务商', 'mdx');?></option>
     </select>
-    <p class="description"><?php _e('指定你想提供给访问者的分享服务商。<br>“只有中国国内服务商”提供：微博、微信、QQ、QQ 空间 的分享<br>“只有国际服务商”提供：Telegrame、Twitter、Facebook 的分享<br>无论如何，“生成分享图”始终启用。', 'mdx');?></p>
+    <p class="description"><?php _e('指定你想提供给访问者的分享服务商。</p><ul><li><code>只有中国国内服务商</code>：提供 微博、微信、QQ、QQ 空间 的分享</li><li><code>只有国际服务商</code>：提供 Telegrame、Twitter、Facebook 的分享</li></ul><p>无论如何，“生成分享图”始终启用。', 'mdx');?></p>
     </td>
     </tr>
 </tbody>
@@ -308,16 +328,16 @@ wp_nonce_field('mdx_options_update');
     </tr>
     <tr>
     <th scope="row"><label for="mdx_hot_posts_num"><?php _e('首页推荐文章数量', 'mdx');?></label></th>
-    <td><input name="mdx_hot_posts_num" type="text" id="mdx_hot_posts_num" value="<?php echo esc_attr(mdx_get_option('mdx_hot_posts_num'))?>" class="regular-text mdx_apspc2">
-    <p class="description"><?php _e('在此设定首页推荐文章篇数。请输入整数。', 'mdx');?></p></td>
+    <td><input name="mdx_hot_posts_num" type="number" id="mdx_hot_posts_num" min="1" value="<?php echo esc_attr(mdx_get_option('mdx_hot_posts_num'))?>" class="regular-text mdx_apspc2">
+    <p class="description"><?php _e('在此设定首页推荐文章篇数。请输入大于 0 的整数。', 'mdx');?></p></td>
     </tr>
     <tr>
     <th scope="row"><?php _e('首页推荐文章获取方式', 'mdx');?></th>
     <td>
     <?php $mdx_v_hot_posts_get=mdx_get_option('mdx_hot_posts_get');?>
         <fieldset>
-        <label><input type="radio" class="mdx_get" name="mdx_hot_posts_get" value="cat" <?php if($mdx_v_hot_posts_get=='cat'){?>checked="checked"<?php }?>> <?php  _e('某一分类', 'mdx');?></label><br>
-        <label><input type="radio" class="mdx_get" name="mdx_hot_posts_get" value="sticky" <?php if($mdx_v_hot_posts_get=='sticky'){?>checked="checked"<?php }?>> <?php _e('置顶文章', 'mdx');?></label><br>
+        <label><input type="radio" class="mdx_get mdx_apspc2" name="mdx_hot_posts_get" value="cat" <?php if($mdx_v_hot_posts_get=='cat'){?>checked="checked"<?php }?>> <?php  _e('某一分类', 'mdx');?></label><br>
+        <label><input type="radio" class="mdx_get mdx_apspc2" name="mdx_hot_posts_get" value="sticky" <?php if($mdx_v_hot_posts_get=='sticky'){?>checked="checked"<?php }?>> <?php _e('置顶文章', 'mdx');?></label><br>
         <p class="description"><?php _e('在此设定首页推荐文章的获取方式。<br>若选择置顶文章，当没有置顶文章时，首页推荐文章模块将不会显示，同时文章列表将保持原始顺序而不会被置顶文章打乱。', 'mdx');?></p>
         </fieldset>
     </td>
@@ -350,6 +370,11 @@ wp_nonce_field('mdx_options_update');
     </td>
     </tr>
     <tr>
+    <th scope="row"><label for="mdx_you_may_like_num"><?php _e('文末推荐文章数量', 'mdx');?></label></th>
+    <td><input name="mdx_you_may_like_num" type="number" id="mdx_you_may_like_num" min="1" value="<?php echo esc_attr(mdx_get_option('mdx_you_may_like_num'))?>" class="regular-text mdx_apspc">
+    <p class="description"><?php _e('在此文末首页推荐文章篇数。请输入大于 0 的整数。', 'mdx');?></p></td>
+    </tr>
+    <tr>
     <th scope="row"><?php _e('文末推荐文章计算方式', 'mdx');?></th>
     <td>
     <?php $mdx_v_you_may_like_way=mdx_get_option('mdx_you_may_like_way');?>
@@ -378,7 +403,7 @@ wp_nonce_field('mdx_options_update');
         <fieldset>
         <label><input type="radio" name="mdx_comment_ajax" value="true" <?php if($mdx_v_comment_ajax=='true'){?>checked="checked"<?php }?>> <?php echo $trueon;?></label><br>
         <label><input type="radio" name="mdx_comment_ajax" value="false" <?php if($mdx_v_comment_ajax=='false'){?>checked="checked"<?php }?>> <?php echo $falseoff;?></label><br>
-        <p class="description"><?php _e('开启后，文章评论加载时将使用无限加载，关闭则使用分页加载。无论如何，评论均为 AJAX 加载。</strong>', 'mdx');?></p>
+        <p class="description"><?php _e('开启后，文章评论加载时将使用无限加载，关闭则使用分页加载。无论如何，评论均为 AJAX 加载。', 'mdx');?></p>
         </fieldset>
     </td>
     </tr>
@@ -389,7 +414,7 @@ wp_nonce_field('mdx_options_update');
         <fieldset>
         <label><input type="radio" name="mdx_comment_emj" value="true" <?php if($mdx_v_comment_emj=='true'){?>checked="checked"<?php }?>> <?php echo $trueon;?></label><br>
         <label><input type="radio" name="mdx_comment_emj" value="false" <?php if($mdx_v_comment_emj=='false'){?>checked="checked"<?php }?>> <?php echo $falseoff;?></label><br>
-        <p class="description"><?php _e('开启后，评论时可输入表情。开启后仍需安装表情插件才可正常使用。目前仅支持来自 mayuko 的 Alu 表情插件，请前往 <a href="https://doc.flyhigher.top/mdx/zh-CN/config/emoji-in-comment/" target="_blank">MDx文档</a> 下载插件安装包。', 'mdx');?></p>
+        <p class="description"><?php _e('开启后，评论时可输入表情。开启后仍需安装表情插件才可正常使用。目前仅支持来自 mayuko 的 Alu 表情插件，请前往 <a href="https://doc.flyhigher.top/mdx/zh-CN/config/emoji-in-comment/" target="_blank">MDx 文档</a> 下载插件安装包。', 'mdx');?></p>
         </fieldset>
     </td>
     </tr>
@@ -405,7 +430,7 @@ wp_nonce_field('mdx_options_update');
         <option value="seo1" <?php if($mdx_v_lazy_load_mode=='seo1'){?>selected="selected"<?php }?>><?php _e('SEO优先（轻度）', 'mdx');?></option>
         <option value="seo2" <?php if($mdx_v_lazy_load_mode=='seo2'){?>selected="selected"<?php }?>><?php _e('SEO优先（重度）', 'mdx');?></option>
     </select>
-    <p class="description"><?php _e('LazyLoad 即图片会在即将滚动到屏幕内时才开始加载的技术（可能会影响 SEO）。此设置会影响图片加载模式。<br>速度优先：几乎所有图片都会使用 LazyLoad<br>SEO优先（轻度）：除文章内使用的图片外几乎所有图片都会使用 LazyLoad<br>SEO优先（重度）：文章内使用的图片和文章列表使用的图片不会使用 LazyLoad，但仍有少量装饰性图片会使用', 'mdx');?></p>
+    <p class="description"><?php _e('LazyLoad 即图片会在即将滚动到屏幕内时才开始加载的技术（可能会影响 SEO）。此设置会影响图片加载模式。</p><ul><li><code>速度优先</code>：几乎所有图片都会使用 LazyLoad</li><li><code>SEO优先（轻度）</code>：除文章内使用的图片外几乎所有图片都会使用 LazyLoad</li><li><code>SEO优先（重度）</code>：文章内使用的图片和文章列表使用的图片不会使用 LazyLoad，但仍有少量装饰性图片会使用</li></ul>', 'mdx');?>
     </td>
     </tr>
     <tr>
@@ -486,7 +511,7 @@ wp_nonce_field('mdx_options_update');
         <option value="true" <?php if($mdx_v_auto_night_style=='true'){?>selected="selected"<?php }?>><?php echo _e("跟随时间", "mdx");?></option>
         <option value="false" <?php if($mdx_v_auto_night_style=='false'){?>selected="selected"<?php }?>><?php echo $falseoff;?></option>
     </select>
-    <p class="description"><?php _e('<strong>仅当开启夜间模式功能后此选项方可生效。</strong><br><ul><li><code>跟随系统</code>：夜间模式随用户系统的配色方案实时切换，优先级低于用户自行设置</li><li><code>跟随时间</code>：22:30 至第二天 5:30 之间打开页面时自动加载夜间模式，优先级低于用户自行设置</li></ul>', 'mdx');?></p>
+    <p class="description"><?php _e('<strong>仅当开启夜间模式功能后此选项方可生效。</strong></p><ul><li><code>跟随系统</code>：夜间模式随用户系统的配色方案实时切换，优先级低于用户自行设置</li><li><code>跟随时间</code>：22:30 至第二天 5:30 之间打开页面时自动加载夜间模式，优先级低于用户自行设置</li></ul>', 'mdx');?>
     </td>
     </tr>
 </tbody>
@@ -516,7 +541,7 @@ wp_nonce_field('mdx_options_update');
 </tbody>
 
 <tbody class="mdx-admin-section" id="mdx-admin-nav-cdn-section">
-<tr>
+    <tr>
     <th scope="row"><label for="mdx_use_cdn"><?php _e('使用 CDN 加载前端主题文件', 'mdx');?></label></th>
     <td>
     <?php $mdx_v_use_cdn=mdx_get_option('mdx_use_cdn');?>
@@ -525,7 +550,7 @@ wp_nonce_field('mdx_options_update');
         <option value="jsdelivr" <?php if($mdx_v_use_cdn=='jsdelivr'){?>selected="selected"<?php }?>><?php _e('jsDelivr', 'mdx');?></option>
         <option value="custom" <?php if($mdx_v_use_cdn=='custom'){?>selected="selected"<?php }?>><?php _e('自定义', 'mdx');?></option>
     </select>
-    <p class="description"><?php _e('在<strong>部分情况</strong>下，使用 CDN 有助于前端页面更快地载入。此选项<strong>只影响</strong>主题的前端文件，不影响 WordPress 和其他插件的文件。<br><ul><li><code>不使用</code>：从和页面一致的服务器加载文件</li><li><code>jsDelivr</code>：使用由 jsDelivr 提供的免费 CDN</li><li><code>自定义</code>：使用自定义的 CDN</li></ul>', 'mdx');?></p>
+    <p class="description"><?php _e('在<strong>部分情况</strong>下，使用 CDN 有助于前端页面更快地载入。此选项<strong>只影响</strong>主题的前端文件，不影响 WordPress 和其他插件的文件。</p><ul><li><code>不使用</code>：从和页面一致的服务器加载文件</li><li><code>jsDelivr</code>：使用由 jsDelivr 提供的免费 CDN</li><li><code>自定义</code>：使用自定义的 CDN</li></ul>', 'mdx');?>
     </td>
     </tr>
     <tr class="cdn_custom">
@@ -633,7 +658,7 @@ wp_nonce_field('mdx_options_update');
         <fieldset>
         <label><input type="radio" name="mdx_jquery" value="true" <?php if($mdx_v_jquery=='true'){?>checked="checked"<?php }?>> <?php echo $trueon;?></label><br>
         <label><input type="radio" name="mdx_jquery" value="false" <?php if($mdx_v_jquery=='false'){?>checked="checked"<?php }?>> <?php echo $falseoff;?></label><br>
-        <p class="description"><?php _e('自 2.0.0 版本起，MDx 已不再依赖 jQuery 且不再在前端载入 jQuery 脚本。如果你在升级 MDx 后碰到页面显示不正常等问题，请尝试打开此选项。<br><strong>这是一个临时选项，将会在未来版本中被移除。如果你的前端页面中有依赖 jQuery 的其他资源，请确保其不受 MDx 移除 jQuery 的影响。</strong><br>有关更多从 MDx 1.x 升级至 2.x 的信息，请参阅<a href="https://doc.flyhigher.top/mdx/zh-CN/upgrade_tip/">主题文档</a>', 'mdx');?></p>
+        <p class="description"><?php _e('自 2.0.0 版本起，MDx 已不再依赖 jQuery 且不再在前端载入 jQuery 脚本。如果你在升级 MDx 后碰到页面显示不正常等问题，请尝试打开此选项。<br><strong>这是一个临时选项，将会在未来版本中被移除。如果你的前端页面中有依赖 jQuery 的其他资源，请确保其不受 MDx 移除 jQuery 的影响。</strong><br>有关更多从 MDx 1.x 升级至 2.x 的信息，请参阅<a href="https://doc.flyhigher.top/mdx/zh-CN/upgrade_tip/">主题文档</a>。', 'mdx');?></p>
         </fieldset>
     </td>
     </tr>

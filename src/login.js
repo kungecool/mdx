@@ -1,4 +1,6 @@
-import ele from './ele.js';
+import ele from './tools/ele.js';
+
+__webpack_public_path__ = window.mdxPublicPath;
 
 window.addEventListener('DOMContentLoaded', () => {
     ele("#loginform, #login_error, .message, #lostpasswordform, #registerform", (e) => { e.classList.add("mdui-card") });
